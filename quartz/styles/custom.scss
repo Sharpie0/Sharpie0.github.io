@@ -2,30 +2,42 @@
 
 // put your custom CSS here!
 
-/* ===== 색상 (배경화면에서 뽑은 색) ===== */
+/* ===== 색상 (스타레일 KV에서 뽑은 색) ===== */
 :root {
-  --glass-bg: rgba(236, 232, 248, 0.62);   // 연보라 유리판
-  --glass-border: rgba(191, 211, 255, 0.9); // 프레임 선 색
-  --glass-shadow: rgba(59, 60, 93, 0.25);
-  --text-normal: #2a2c48;                  // 본문 글자 (짙은 남색)
-  --accent-h: 252;                         // 링크·강조 (라벤더)
+  --glass-bg: rgba(246, 240, 232, 0.78);     // 유리판: 따뜻한 크림색
+  --glass-border: rgba(232, 184, 106, 0.55); // 테두리: 역 조명 금색
+  --glass-shadow: rgba(8, 12, 25, 0.35);
+  --tab-bg: rgba(255, 255, 255, 0.75);       // 카테고리 탭: 흰색
+  --text-normal: #1c2438;                    // 글자: 짙은 남색
+  --nav-item-color: var(--text-normal);      // 탭·목록 글자
+  --accent-h: 225;                           // 링크: 밤하늘 남색
   --accent-s: 50%;
-  --accent-l: 50%;
-  --text-highlight-bg: rgba(240, 182, 74, 0.45); // 형광펜 (눈 색 호박색)
+  --accent-l: 42%;
+  --text-highlight-bg: rgba(242, 166, 200, 0.45); // 형광펜: 삼칠이 핑크
+  --bg-dim: rgba(8, 12, 25, 0.25);           // 배경 어둡게 (0이면 원본 밝기)
 }
 
 html[saved-theme="dark"] {
-  --glass-bg: rgba(25, 32, 51, 0.72);      // 짙은 남색 유리판
-  --glass-border: rgba(149, 154, 194, 0.6);
-  --glass-shadow: rgba(0, 0, 0, 0.4);
-  --text-normal: #e6e0ed;
-  --accent-l: 72%;
-  --text-highlight-bg: rgba(240, 182, 74, 0.35);
+  --glass-bg: rgba(17, 32, 58, 0.72);        // 유리판: 밤하늘 남색
+  --glass-border: rgba(232, 184, 106, 0.35);
+  --glass-shadow: rgba(0, 0, 0, 0.45);
+  --tab-bg: rgba(17, 32, 58, 0.9);           // 카테고리 탭: 짙은 남색
+  --text-normal: #f6e9d4;                    // 글자: 크림색
+  --text-muted: #d9cdb8;                     // 보조 글자 (목차 등)
+  --text-faint: #a99f93;                     // 흐린 글자 (날짜 등)
+  --nav-item-color: var(--text-normal);
+  --accent-h: 38;                            // 링크: 가로등 금색
+  --accent-s: 75%;
+  --accent-l: 66%;
+  --text-highlight-bg: rgba(242, 166, 200, 0.3);
+  --bg-dim: rgba(8, 12, 25, 0.5);
 }
 
 /* ===== 배경화면 ===== */
 body {
-  background: #3b3c5d url("/static/wallpaper.jpg") center / cover fixed;
+  background:
+    linear-gradient(var(--bg-dim), var(--bg-dim)),
+    #11203a url("/static/wallpaper.jpg") center / cover fixed;
 }
 
 /* 테마가 덮고 있는 판들을 투명하게 */
@@ -39,17 +51,21 @@ footer {
 }
 
 /* ===== 유리판 효과 ===== */
-.page > #quartz-body .center,
-.page > #quartz-body .sidebar .explorer,
-.page > #quartz-body .toc,
-.graph > .graph-outer,
-.search > .search-button {
+@mixin glass {
   background-color: var(--glass-bg);
   backdrop-filter: blur(14px) saturate(120%);
   -webkit-backdrop-filter: blur(14px) saturate(120%);
   border: 1px solid var(--glass-border);
   box-shadow: 0 8px 30px var(--glass-shadow);
   border-radius: 12px;
+}
+
+.page > #quartz-body .center,
+.page > #quartz-body .sidebar .explorer,
+.page > #quartz-body .toc,
+.graph > .graph-outer,
+.search > .search-button {
+  @include glass;
 }
 
 .page > #quartz-body .center {
@@ -61,17 +77,146 @@ footer {
   padding: 0.75rem;
 }
 
+/* 본문 이미지 둥글게 */
+.page article img {
+  border-radius: 10px;
+  box-shadow: 0 6px 24px var(--glass-shadow);
+}
+
+/* 사이트 제목 */
+.page-title a {
+  color: var(--text-normal);
+}
+
+/* ===== 배치: 큰 화면(가로 1200px 이상) ===== */
+@media #{$desktop} {
+  .page {
+    max-width: 1400px;   // 전체 최대 너비
+    margin: 0 auto;      // 가운데 정렬
+  }
+
+  // 구조: [위: 제목 + 카테고리 메뉴 + 검색]  [아래: 본문 | 그래프·목차]
+  .page > #quartz-body {
+    grid-template-columns: minmax(0, 1fr) 280px;
+    grid-template-rows: auto 1fr auto;
+    grid-template-areas: none;
+    column-gap: 1.25rem;
+    row-gap: 1rem;
+    padding: 1.5rem 2rem 0;
+  }
+
+  // ---- 위쪽 가로 메뉴줄 ----
+  .page > #quartz-body .sidebar.left {
+    @include glass;
+    grid-column: 1 / -1;
+    grid-row: 1;
+    position: static;
+    height: auto;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.75rem 1.25rem;
+    padding: 0.6rem 1.25rem;
+
+    .page-title {
+      margin: 0;
+      order: 0;
+    }
+
+    // 폴더 목록 → 카테고리 탭
+    .explorer {
+      order: 1;
+      flex: 1 1 auto;
+      overflow: visible;
+      min-height: auto;
+      padding: 0;
+      background: none;
+      border: none;
+      box-shadow: none;
+      backdrop-filter: none;
+      -webkit-backdrop-filter: none;
+    }
+    .explorer .desktop-explorer,
+    .explorer .folder-icon,
+    .explorer li.overflow-end,
+    .explorer ul.explorer-ul > li > .folder-outer {
+      display: none;
+    }
+    .explorer .explorer-content {
+      overflow: visible;
+      visibility: visible;
+    }
+    .explorer ul.explorer-ul {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin: 0;
+      padding: 0;
+    }
+    .explorer ul.explorer-ul > li {
+      list-style: none;
+    }
+
+    // 탭 모양
+    .explorer ul.explorer-ul > li > .folder-container,
+    .explorer ul.explorer-ul > li > a {
+      padding: 0.3rem 0.9rem;
+      border-radius: 999px;
+      border: 1px solid rgba(232, 184, 106, 0.7);
+      background-color: var(--tab-bg);
+      box-shadow: 0 2px 8px var(--glass-shadow);
+      color: var(--text-normal);
+      font-weight: 600;
+      transition: background-color 0.2s, border-color 0.2s;
+
+      &:hover {
+        background-color: rgba(232, 184, 106, 0.35);   // 마우스 올리면 금색
+        border-color: rgba(232, 184, 106, 1);
+      }
+    }
+    .explorer .folder-container a,
+    .explorer .folder-title {
+      color: var(--text-normal);
+    }
+
+    // 검색·다크모드 버튼 → 맨 오른쪽
+    .flex-component {
+      order: 2;
+      margin-left: auto;
+    }
+  }
+
+  // ---- 본문 ----
+  .page > #quartz-body .center {
+    grid-column: 1;
+    grid-row: 2;
+  }
+
+  // ---- 오른쪽: 그래프·목차·백링크 ----
+  .page > #quartz-body .sidebar.right {
+    grid-column: 2;
+    grid-row: 2;
+    position: static;
+    height: auto;
+    padding: 0;
+  }
+
+  .page > #quartz-body footer {
+    grid-column: 1 / -1;
+    grid-row: 3;
+  }
+}
+
 /* ===== 핸드폰 ===== */
 @media #{$mobile} {
   body {
-    background-position: 30% center;  // 캐릭터 얼굴 쪽 기준
-    background-attachment: scroll;     // 아이폰 확대 문제 방지
+    background-attachment: scroll;   // 아이폰 확대 문제 방지
   }
   :root {
-    --glass-bg: rgba(236, 232, 248, 0.82);
+    --glass-bg: rgba(246, 240, 232, 0.88);
   }
   html[saved-theme="dark"] {
-    --glass-bg: rgba(25, 32, 51, 0.85);
+    --glass-bg: rgba(17, 32, 58, 0.85);
   }
   .page > #quartz-body .center {
     padding: 1rem;
