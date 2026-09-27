@@ -2,7 +2,9 @@
 
 // put your custom CSS here!
 
-/* ===== 색상 (스타레일 KV에서 뽑은 색) ===== */
+/* ============================================================
+   1. 색상 (스타레일 KV에서 뽑은 색)
+   ============================================================ */
 :root {
   --glass-bg: rgba(246, 240, 232, 0.78);     // 유리판: 따뜻한 크림색
   --glass-border: rgba(232, 184, 106, 0.55); // 테두리: 역 조명 금색
@@ -10,6 +12,9 @@
   --tab-bg: rgba(255, 255, 255, 0.75);       // 카테고리 탭: 흰색
   --text-normal: #1c2438;                    // 글자: 짙은 남색
   --nav-item-color: var(--text-normal);      // 탭·목록 글자
+  --title-color: #9a6a1a;                    // 사이트 제목: 진한 금색
+  --icon-color: #1c2438;                     // 버튼 아이콘: 짙은 남색
+  --icon-shadow: rgba(255, 255, 255, 0.7);   // 제목·아이콘 그림자: 흰색
   --accent-h: 225;                           // 링크: 밤하늘 남색
   --accent-s: 50%;
   --accent-l: 42%;
@@ -26,6 +31,9 @@ html[saved-theme="dark"] {
   --text-muted: #d9cdb8;                     // 보조 글자 (목차 등)
   --text-faint: #a99f93;                     // 흐린 글자 (날짜 등)
   --nav-item-color: var(--text-normal);
+  --title-color: #e8b86a;                    // 사이트 제목: 가로등 금색
+  --icon-color: #f6e9d4;                     // 버튼 아이콘: 크림색
+  --icon-shadow: rgba(0, 0, 0, 0.8);         // 제목·아이콘 그림자: 검은색
   --accent-h: 38;                            // 링크: 가로등 금색
   --accent-s: 75%;
   --accent-l: 66%;
@@ -33,14 +41,17 @@ html[saved-theme="dark"] {
   --bg-dim: rgba(8, 12, 25, 0.5);
 }
 
-/* ===== 배경화면 ===== */
+/* ============================================================
+   2. 배경화면
+   ============================================================ */
 body {
   background:
     linear-gradient(var(--bg-dim), var(--bg-dim)),
     #11203a url("/static/wallpaper.jpg") center / cover fixed;
+  // 배경을 바꾸면 위 주소를 wallpaper.jpg?v=2 처럼 숫자 올리기 (캐시 방지)
 }
 
-/* 테마가 덮고 있는 판들을 투명하게 */
+// 테마가 덮고 있는 판들을 투명하게
 #quartz-root,
 .page > #quartz-body,
 .page > #quartz-body .sidebar,
@@ -50,7 +61,9 @@ footer {
   background-color: transparent;
 }
 
-/* ===== 유리판 효과 ===== */
+/* ============================================================
+   3. 유리판 효과
+   ============================================================ */
 @mixin glass {
   background-color: var(--glass-bg);
   backdrop-filter: blur(14px) saturate(120%);
@@ -77,18 +90,45 @@ footer {
   padding: 0.75rem;
 }
 
-/* 본문 이미지 둥글게 */
+// 본문 이미지 둥글게
 .page article img {
   border-radius: 10px;
   box-shadow: 0 6px 24px var(--glass-shadow);
 }
 
-/* 사이트 제목 */
-.page-title a {
-  color: var(--text-normal);
+/* ============================================================
+   4. 사이트 제목·버튼
+   ============================================================ */
+h2.page-title,
+h2.page-title a {
+  color: var(--title-color);
+  font-weight: 700;
 }
 
-/* ===== 배치: 큰 화면(가로 1200px 이상) ===== */
+.darkmode svg,
+.readermode svg {
+  fill: var(--icon-color);
+  stroke: var(--icon-color);
+  color: var(--icon-color);
+}
+
+.search > .search-button,
+.search > .search-button p,
+.search > .search-button svg {
+  color: var(--icon-color);
+  stroke: var(--icon-color);
+}
+
+// 배경이 밝든 어둡든 떠 보이게 그림자
+h2.page-title a,
+.darkmode svg,
+.readermode svg {
+  filter: drop-shadow(0 1px 3px var(--icon-shadow));
+}
+
+/* ============================================================
+   5. 배치: 큰 화면(가로 1200px 이상)
+   ============================================================ */
 @media #{$desktop} {
   .page {
     max-width: 1400px;   // 전체 최대 너비
@@ -207,7 +247,9 @@ footer {
   }
 }
 
-/* ===== 핸드폰 ===== */
+/* ============================================================
+   6. 핸드폰 (가로 800px 이하)
+   ============================================================ */
 @media #{$mobile} {
   body {
     background-attachment: scroll;   // 아이폰 확대 문제 방지
