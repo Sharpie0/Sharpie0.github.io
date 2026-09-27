@@ -1,5 +1,5 @@
 ---
-title: 🃏 Yugioh
+title: 🃏 유희왕
 ---
 
 > [!note] 유희왕 테마 정리
