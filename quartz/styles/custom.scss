@@ -12,9 +12,9 @@
   --tab-bg: rgba(255, 255, 255, 0.75);       // 카테고리 탭: 흰색
   --text-normal: #1c2438;                    // 글자: 짙은 남색
   --nav-item-color: var(--text-normal);      // 탭·목록 글자
-  --title-color: #9a6a1a;                    // 사이트 제목: 진한 금색
+  --title-color: #1c2438;                    // 사이트 제목: 진한 금색
   --icon-color: #1c2438;                     // 버튼 아이콘: 짙은 남색
-  --icon-shadow: rgba(255, 255, 255, 0.7);   // 제목·아이콘 그림자: 흰색
+  --icon-shadow: transparent;   // 제목·아이콘 그림자: 흰색
   --accent-h: 225;                           // 링크: 밤하늘 남색
   --accent-s: 50%;
   --accent-l: 42%;
@@ -124,6 +124,16 @@ h2.page-title a,
 .darkmode svg,
 .readermode svg {
   filter: drop-shadow(0 1px 3px var(--icon-shadow));
+}
+
+// 버튼을 작은 알약 모양 판에 올려서 어떤 배경에서도 보이게
+.darkmode,
+.readermode {
+  background-color: var(--tab-bg);
+  border: 1px solid rgba(232, 184, 106, 0.7);
+  border-radius: 999px;
+  padding: 0.35rem;
+  box-shadow: 0 2px 8px var(--glass-shadow);
 }
 
 /* ============================================================
