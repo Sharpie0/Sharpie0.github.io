@@ -1,5 +1,5 @@
 ---
-title: 🕹️ 게임
+title: 🕹️ Game
 ---
 
 > [!tip] 게임 기록 모음

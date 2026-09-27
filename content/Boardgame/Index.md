@@ -1,5 +1,5 @@
 ---
-title: 🎲 보드게임
+title: 🎲 Boardgame
 ---
 
 > [!example] 보드게임 정리 모음
