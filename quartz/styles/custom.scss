@@ -1,3 +1,24 @@
-@use "./variables.scss" as *;
+// 배경화면
+body {
+  background: url("/static/wallpaper.jpg") center / cover fixed;
+}
 
-// put your custom CSS here!
+// 테마가 덮고 있는 판들을 투명하게
+#quartz-root,
+.page > #quartz-body,
+.page > #quartz-body .sidebar,
+.page > #quartz-body .sidebar .explorer .explorer-content,
+.page > #quartz-body footer,
+footer {
+  background-color: transparent;
+}
+
+// 글 영역은 반투명 판을 깔아서 읽기 쉽게
+.page > #quartz-body .center {
+  background-color: rgba(255, 255, 255, 0.85);
+  border-radius: 12px;
+}
+
+html[saved-theme="dark"] .page > #quartz-body .center {
+  background-color: rgba(20, 20, 20, 0.85);
+}
