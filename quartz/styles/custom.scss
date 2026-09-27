@@ -12,9 +12,9 @@
   --tab-bg: rgba(255, 255, 255, 0.75);       // 카테고리 탭: 흰색
   --text-normal: #1c2438;                    // 글자: 짙은 남색
   --nav-item-color: var(--text-normal);      // 탭·목록 글자
-  --title-color: #1c2438;                    // 사이트 제목: 진한 금색
+  --title-color: #1c2438;                    // 사이트 제목: 짙은 남색
   --icon-color: #1c2438;                     // 버튼 아이콘: 짙은 남색
-  --icon-shadow: transparent;   // 제목·아이콘 그림자: 흰색
+  --icon-shadow: transparent;                // 제목·아이콘 그림자: 없음
   --accent-h: 225;                           // 링크: 밤하늘 남색
   --accent-s: 50%;
   --accent-l: 42%;
@@ -119,13 +119,6 @@ h2.page-title a {
   stroke: var(--icon-color);
 }
 
-// 배경이 밝든 어둡든 떠 보이게 그림자
-h2.page-title a,
-.darkmode svg,
-.readermode svg {
-  filter: drop-shadow(0 1px 3px var(--icon-shadow));
-}
-
 // 버튼을 작은 알약 모양 판에 올려서 어떤 배경에서도 보이게
 .darkmode,
 .readermode {
@@ -136,10 +129,17 @@ h2.page-title a,
   box-shadow: 0 2px 8px var(--glass-shadow);
 }
 
+// 다크 모드에서 제목·아이콘이 떠 보이게 그림자
+h2.page-title a,
+.darkmode svg,
+.readermode svg {
+  filter: drop-shadow(0 1px 3px var(--icon-shadow));
+}
+
 /* ============================================================
-   5. 배치: 큰 화면(가로 1200px 이상)
+   5. 배치: 가로 800px 이상 (노트북·모니터)
    ============================================================ */
-@media #{$desktop} {
+@media (min-width: 800px) {
   .page {
     max-width: 1400px;   // 전체 최대 너비
     margin: 0 auto;      // 가운데 정렬
@@ -258,6 +258,30 @@ h2.page-title a,
 }
 
 /* ============================================================
+   5-1. 중간 화면 (가로 800~1200px): 그래프·목차를 본문 아래로
+   ============================================================ */
+@media #{$tablet} {
+  .page > #quartz-body {
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-rows: auto auto auto auto;
+    padding: 1rem 1rem 0;
+  }
+  .page > #quartz-body .center {
+    grid-column: 1;
+    grid-row: 2;
+  }
+  .page > #quartz-body .sidebar.right {
+    grid-column: 1;
+    grid-row: 3;
+    flex-direction: row;
+  }
+  .page > #quartz-body footer {
+    grid-column: 1;
+    grid-row: 4;
+  }
+}
+
+/* ============================================================
    6. 핸드폰 (가로 800px 이하)
    ============================================================ */
 @media #{$mobile} {
@@ -272,5 +296,29 @@ h2.page-title a,
   }
   .page > #quartz-body .center {
     padding: 1rem;
+  }
+
+  // ☰ 메뉴: 유리판 효과가 펼쳐지는 메뉴를 가두지 않게 해제
+  .page > #quartz-body .sidebar .explorer {
+    background: none;
+    border: none;
+    box-shadow: none;
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+    border-radius: 0;
+    padding: 0;
+  }
+
+  // 펼쳐진 메뉴 화면: 거의 불투명한 판
+  .page > #quartz-body .sidebar .explorer .explorer-content {
+    background-color: rgba(246, 240, 232, 0.97);
+  }
+  html[saved-theme="dark"] .page > #quartz-body .sidebar .explorer .explorer-content {
+    background-color: rgba(17, 32, 58, 0.97);
+  }
+
+  // ☰ 아이콘 색
+  .explorer .mobile-explorer .lucide-menu {
+    stroke: var(--icon-color);
   }
 }
